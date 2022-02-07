@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         database.execSQL("create table if not exists " + name + "("
-        + " _id integer PRIMARY KEY autocrement, "
+        + " _id integer PRIMARY KEY autoincrement, "
         + " name text, "
         + " age integer, "
         + " mobile text, "
