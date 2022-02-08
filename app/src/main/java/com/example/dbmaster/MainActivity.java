@@ -23,15 +23,20 @@ import android.widget.Toast;
 -저장소 생성(데이터베이스 생성 -> 한번 만들어지면 그 이후부터는 오픈됨)
 -> 테이블 생성 -> 레코드 추가 -> 데이터 조회(조건 검색)
 
+*헬퍼 클래스로 업그레이드
+-테이블의 정의가 변경되어서 스키마(테이블 구조)를 업그레이드 해야할 때 API에서 제공하는 헬퍼 클래스를 이용함
+
  */
 
 public class MainActivity extends AppCompatActivity {
 
     EditText edt, edt2;
-    TextView tv;
+    static TextView tv;
 
     SQLiteDatabase database;
     String tbName;
+
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         database = openOrCreateDatabase(name, MODE_PRIVATE, null); // 파라미터로는 저장소 이름, 사용 모드, 널이 아닌 객체를 지정할 경우
         // 쿼리의 결과 값으로 반환되는 데이터를 참조하는 커서를 만들어낼 수 있는 객체가 전달됨
         println("데이터 베이스가 생성되었습니다. " + name);
+
+        // 헬퍼 객체 생성하고 db 객체 참조함
+        dbHelper = new DBHelper(this);
+        database = dbHelper.getWritableDatabase();
     }
 
     private void createTb(String name) {
