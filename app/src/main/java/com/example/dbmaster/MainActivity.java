@@ -2,6 +2,7 @@ package com.example.dbmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,9 @@ import android.widget.Toast;
 *헬퍼 클래스로 업그레이드
 -테이블의 정의가 변경되어서 스키마(테이블 구조)를 업그레이드 해야할 때 API에서 제공하는 헬퍼 클래스를 이용함
 
+*커서 객체
+-결과 테이블에 들어있는 각각의 레코드를 순서대로 접근할 수 있는 방법을 제공함
+-처음에는 어떤 레코드도 가리키지 않고, moveToNext()로 다음 레코드를 가리켜서 값을 가져올 수 있음(false 값을 반환할 때까지 레코드 값을 가져옴)
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -43,9 +47,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button btn4 = (Button)findViewById(R.id.btn4);
+
         edt = (EditText)findViewById(R.id.edt);
         edt2 = (EditText)findViewById(R.id.edt2);
         tv = (TextView)findViewById(R.id.tv);
+
+        Button btn3 = (Button)findViewById(R.id.btn3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recordSelect();
+            }
+        });
 
         Button btn = (Button)findViewById(R.id.btn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +80,26 @@ public class MainActivity extends AppCompatActivity {
                 insertRecord();
             }
         });
+    }
+
+    public void recordSelect() {
+        Cursor cursor = database.rawQuery("select _id, name, age, mobile, email, address from dbtest", null); // SQL 실행하고 커서 객체 반환 받기
+        int recordCount = cursor.getCount();
+        println("레코드 개수 : " + recordCount);
+
+        for(int i = 0; i < recordCount; i++) {
+            cursor.moveToNext(); // 다음 결과 레코드로 이동, 다음 레코드가 있으면 true를, 없으면 false가 반환됨
+
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            int age = cursor.getInt(2);
+            String mobile = cursor.getString(3);
+            String email = cursor.getString(4);
+            String address = cursor.getString(5);
+
+            println("레코드" + i + " : " + id + ", " + name + ", " + age + ", " + mobile + ", " + email + ", " + address);
+        }
+        cursor.close(); // 저장소에 접근하기 때문에 자원이 한정되어 있어서 닫아줌
     }
 
     private void createDB(String name) {
