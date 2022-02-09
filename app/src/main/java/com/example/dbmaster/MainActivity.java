@@ -2,6 +2,8 @@ package com.example.dbmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentProvider;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -48,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btn4 = (Button)findViewById(R.id.btn4);
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ContentProvider.class);
+                startActivity(intent);
+            }
+        });
 
         edt = (EditText)findViewById(R.id.edt);
         edt2 = (EditText)findViewById(R.id.edt2);
