@@ -9,6 +9,19 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/*
+*Content Provider(내용 제공자) : 한 앱에서 관리하는 데이터를 다른 앱에서도 접근할 수 있도록 해줌
+ -앱의 보안을 위해서 필요함(서로 다른 앱의 데이터에 접근해야될 때도 있음)
+ -다른 앱에게 접근 통로를 열어줄 수 있음(반드시 허용된 통로로만 접근해야됨)
+  -> 허용된 통로로 접근하려면 Content Resolver 객체가 필요함
+
+
+ -앱이 자체적으로 저장된 데이터, 다른 앱이 저장한 데이터에 대한 액세스 권한을 관리하도록 돕고,
+   다른 앱과 데이터를 공유할 방법을 제공함
+ -데이터를 캡슐화하고, 데이터 보안을 정의하는데 필요한 메커니즘을 제공함
+ -한 프로세스의 데이터에 다른 프로세스에서 실행 중인 코드를 연결하는 표준 인터페이스임
+ -가장 중요한 점은 다른 앱이 앱 데이터에 안전하게 액세스하여 수정할 수 있도록 허용할 수 있다는 것임
+ */
 public class ContentProvider extends android.content.ContentProvider {
 
     private static final String AUTHORITY = "org.techtown.provider"; // 특정 내용 제공자를 구분하는 고유값
