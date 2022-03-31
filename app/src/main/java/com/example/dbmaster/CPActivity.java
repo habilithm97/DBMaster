@@ -2,6 +2,9 @@ package com.example.dbmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,37 +28,60 @@ public class CPActivity extends AppCompatActivity {
 
         tv = (TextView)findViewById(R.id.tv);
 
-        Button btn = (Button)findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button insertBtn = (Button)findViewById(R.id.insertBtn);
+        insertBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertUser();
+            }
+        });
+
+        Button queryBtn = (Button)findViewById(R.id.queryBtn);
+        queryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
 
-        Button btn2 = (Button)findViewById(R.id.btn2);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button updateBtn = (Button)findViewById(R.id.updateBtn);
+        updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
 
-        Button btn3 = (Button)findViewById(R.id.btn3);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button deleteBtn = (Button)findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
+    }
 
-        Button btn4 = (Button)findViewById(R.id.btn4);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    public void insertUser() {
+        println("insertUser() 호출됨");
 
-            }
-        });
+        String uriString = "content://org.techtown.provider/user";
+        Uri uri = new Uri.Builder().build().parse(uriString); // 문자열을 파라미터로 전달
+
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        String[] columns = cursor.getColumnNames(); // 결과값 처리
+        println("컬럼 개수 : " + columns.length);
+
+        for(int i = 0; i < columns.length; i++) {
+            println("#" + i + ":" + columns[i]);
+        }
+
+        ContentValues values = new ContentValues();
+        values.put("name", "habilithm");
+        values.put("age", 26);
+        values.put("mobile", "010-1234-5678");
+
+        uri = getContentResolver().insert(uri, values);
+        println("insert 결과 : " + uri.toString());
     }
 
     public void println(String data) {

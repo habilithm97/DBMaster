@@ -10,28 +10,28 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/btn"
+            android:id="@+id/insertBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="INSERT" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/queryBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="QUERY" />
 
         <Button
-            android:id="@+id/btn3"
+            android:id="@+id/updateBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="UPDATE" />
 
         <Button
-            android:id="@+id/btn4"
+            android:id="@+id/deleteBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,6 +49,7 @@
             android:layout_height="match_parent" >
 
             <TextView
+                android:id="@+id/tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
