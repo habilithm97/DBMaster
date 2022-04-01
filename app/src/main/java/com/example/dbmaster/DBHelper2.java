@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class DBHelper2 extends SQLiteOpenHelper {
 
-    private static final String DB_NAME  = "dbdbtest.db";
+    private static final String DB_NAME  = "user.db";
     private static final int DB_VERSION = 1;
 
     public static final String TB_NAME = "user";
@@ -16,7 +16,7 @@ public class DBHelper2 extends SQLiteOpenHelper {
     public static final String USER_NAME = "name";
     public static final String USER_AGE = "age";
     public static final String USER_MOBILE = "mobile";
-    public static final String[] All_COLUMNS = {TB_NAME, USER_ID, USER_NAME, USER_AGE, USER_MOBILE};
+    public static final String[] All_COLUMNS = {USER_ID, USER_NAME, USER_AGE, USER_MOBILE};
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TB_NAME + " (" +
             USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

@@ -10,13 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-/*
-*Content Provider(내용 제공자) : 한 앱에서 관리하는 데이터를 다른 앱에서도 접근할 수 있도록 해줌
--서로 다른 앱의 데이터에 접근해야할 때의 보안을 위해 필요함
--다른 앱에게 데이터 접근 통로를 열어줄 수 있는데, 반드시 허용된 통로로만 접근해야함
- -> 허용된 통로로 접근하려면 Cotent Resolver 객체가 필요함
- */
-
 public class CPActivity extends AppCompatActivity {
 
     TextView tv;
@@ -40,7 +33,7 @@ public class CPActivity extends AppCompatActivity {
         queryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                queryUser();
             }
         });
 
@@ -48,7 +41,7 @@ public class CPActivity extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                updateUser();
             }
         });
 
@@ -56,20 +49,71 @@ public class CPActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                deleteUser();
             }
         });
+    }
+
+    public void updateUser() {
+        String uriString = "content://org.techtown.provider/user";
+        Uri uri = new Uri.Builder().build().parse(uriString); // 문자열을 파라미터로 전달 -> Uri 객체 생성
+
+        String selection = "mobile = ?";
+        String[] selectionArgs = new String[] {"010-1234-5678"}; // 이 번호일 때만
+        // 따라서 where 조건은 'mobile = 010-1234-5678'
+        ContentValues updateValues = new ContentValues();
+        updateValues.put("mobile", "010-5678-1234"); // 이 번호로 수정함
+        int count = getContentResolver().update(uri, updateValues, selection, selectionArgs);
+        println("update 결과 : " + count);
+    }
+
+    public void deleteUser() {
+        String uriString = "content://org.techtown.provider/user";
+        Uri uri = new Uri.Builder().build().parse(uriString); // 문자열을 파라미터로 전달 -> Uri 객체 생성
+
+        String selection = "name = ?";
+        String[] selectionArgs = new String[] {"habilithm"};
+
+        int count = getContentResolver().delete(uri, selection, selectionArgs);
+        println("delete 결과 : " + count);
+    }
+
+    public void queryUser() {
+        try {
+            String uriString = "content://org.techtown.provider/user";
+            Uri uri = new Uri.Builder().build().parse(uriString); // 문자열을 파라미터로 전달 -> Uri 객체 생성
+
+            String[] columns = new String[] {"name", "age", "mobile"};
+            // 조회할 칼럼의 이름이 문자열로 들어가 있음
+            Cursor cursor = getContentResolver().query(uri, columns, null, null, "name ASC");
+            println("query 결과 : " + cursor.getCount()); // Cursor 객체 리턴
+
+            // Cursor 객체가 리턴되면 각 칼럼 이름에 해당하는 칼럼 인덱스 값을 확인한 후 칼럼 값을 조회함
+
+           int index = 0;
+            while(cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndex(columns[0]));
+                int age = cursor.getInt(cursor.getColumnIndex(columns[1]));
+                String mobile = cursor.getString(cursor.getColumnIndex(columns[2]));
+
+                println("#" + index + " -> " + name + ", " + age + ", " + mobile);
+                index += 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void insertUser() {
         println("insertUser() 호출됨");
 
         String uriString = "content://org.techtown.provider/user";
-        Uri uri = new Uri.Builder().build().parse(uriString); // 문자열을 파라미터로 전달
+        Uri uri = new Uri.Builder().build().parse(uriString); // 문자열을 파라미터로 전달 -> Uri 객체 생성
 
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        String[] columns = cursor.getColumnNames(); // 결과값 처리
-        println("컬럼 개수 : " + columns.length);
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null); // Uri 객체를 파라미터로 전달 -> Cursor 객체 리턴
+        // Cursor 객체로 결과 값을 조회할 수 있음
+        String[] columns = cursor.getColumnNames(); // 결과 레코드에 들어가 있는 칼럼의 이름을 조회
+        println("컬럼 개수 : " + columns.length); // getColumnNames()로 알아낸 칼럼 이름은 화면 출력용으로만 사용 가능함
 
         for(int i = 0; i < columns.length; i++) {
             println("#" + i + ":" + columns[i]);

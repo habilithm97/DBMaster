@@ -12,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /*
-*Content Provider(내용 제공자) : 한 앱에서 관리하는 데이터를 다른 앱에서도 접근할 수 있도록 해줌
+*Content Provider(내용 제공자)
+ -한 앱에서 관리하는 데이터를 다른 앱에서도 접근할 수 있도록 해줌
  -앱의 보안을 위해서 필요함(서로 다른 앱의 데이터에 접근해야될 때도 있음)
  -다른 앱에게 접근 통로를 열어줄 수 있음(반드시 허용된 통로로만 접근해야됨)
   -> 허용된 통로로 접근하려면 Content Resolver 객체가 필요함
@@ -32,16 +33,16 @@ import androidx.annotation.Nullable;
 public class ContentProvider extends android.content.ContentProvider {
 
     private static final String AUTHORITY = "org.techtown.provider"; // 특정 내용 제공자를 구분하는 고유값
-    private static final String BASE_PATH = "user"; // user 테이블을 가리킴, 요청할 데이터의 타입을 결정함(여기서는 user 테이블 이름)
-    // Content Provider를 만들기 위해서는 고유한 값을 가진 content URI를 만들어야함
+    private static final String BASE_PATH = "user"; // user 테이블을 가리킴, 요청할 데이터의 타입을 결정하는데 여기서는 user 테이블 이름을 가리킴
+    // Content Provider를 만들기 위해서는 고유한 값을 가진 content URI를 만들어야 함
     // content:// : Content Provider에 의해 제어되는 데이터
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
 
     private static final int USERS = 1;
-    private static final int USER_ID = 2; // 맨 뒤의 숫자를 가리키며 요청할 데이터의 레코드를 지정함
+    private static final int USER_ID = 2;
 
-    private static final UriMatcher uriMather = new UriMatcher(UriMatcher.NO_MATCH); // Uri를 매칭하는데에 사용됨(Content Provider가 받는 Uri의 종류를 결정함, match()를 호출하면 UriMather에
-    // addURI() 메서드를 이용해 추가된 URI 중에서 실행 가능한 것이 있는지 확인함
+    private static final UriMatcher uriMather = new UriMatcher(UriMatcher.NO_MATCH); // Uri를 매칭하는데에 사용됨(Content Provider가 받는 Uri의 종류를 결정함
+    // match()를 호출하면 UriMather에 addURI() 메서드를 이용해 추가된 URI 중에서 실행 가능한 것이 있는지 확인함
     static {
         uriMather.addURI(AUTHORITY, BASE_PATH, USERS);
         uriMather.addURI(AUTHORITY, BASE_PATH + "/#", USER_ID);
@@ -85,7 +86,8 @@ public class ContentProvider extends android.content.ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) { // 저장할 칼럼명과 값들이 들어간 contentValues 객체
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) { // (uri, 저장할 칼럼명과 값들이 들어간 contentValues 객체)
+        // 삽입된 새로운 레코드의 id 값 리턴
         long id = database.insert(DBHelper2.TB_NAME, null, contentValues);
 
         if(id > 0) {
