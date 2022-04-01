@@ -3,6 +3,7 @@ package com.example.dbmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,15 @@ public class CPActivity extends AppCompatActivity {
         setContentView(R.layout.activity_content_provider);
 
         tv = (TextView)findViewById(R.id.tv);
+
+        Button btn = (Button)findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SampleActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Button insertBtn = (Button)findViewById(R.id.insertBtn);
         insertBtn.setOnClickListener(new View.OnClickListener() {
