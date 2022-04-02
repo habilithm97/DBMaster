@@ -22,8 +22,17 @@ public class CPActivity extends AppCompatActivity {
 
         tv = (TextView)findViewById(R.id.tv);
 
-        Button btn = (Button)findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button sampleBtn2 = (Button)findViewById(R.id.sampleBtn2);
+        sampleBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SampleActivity2.class);
+                startActivity(intent);
+            }
+        });
+
+        Button sampleBtn = (Button)findViewById(R.id.sampleBtn);
+        sampleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SampleActivity.class);
